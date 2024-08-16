@@ -1,9 +1,11 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 
-const initialPlatform = ["배달의 민족", "쿠팡 이츠", "요기요", "일반 대행"];
+const initialPlatform = ['배달의 민족', '쿠팡 이츠', '요기요', '일반 대행'];
+const STORAGE_KEY = '@my_platforms';
 
 export default function Initialize() {
   // 사용자가 선택한 플랫폼 목록을 상태로 관리
@@ -21,17 +23,23 @@ export default function Initialize() {
   };
 
   // 완료 버튼을 눌렀을 때 호출
-  const handleComplete = () => {
-    console.log("설정이 완료되었습니다:", myPlatforms);
-
+  const handleComplete = async () => {
     // myPlatforms 리스트를 initialPlatform의 순서에 맞게 정렬
     const sortedPlatforms = [...myPlatforms].sort(
       (a, b) => initialPlatform.indexOf(a) - initialPlatform.indexOf(b)
     );
 
-    console.log("sorted platforms:", sortedPlatforms);
-    // 여기서 sortedPlatforms를 필요에 따라 저장하거나 처리할 수 있음
     setMyPlatforms(sortedPlatforms);
+
+    // 정렬된 플랫폼을 AsyncStorage에 저장
+    try {
+      console.log('AsyncStorage 호출')
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(sortedPlatforms));
+      // const checkItem = await AsyncStorage.getItem(STORAGE_KEY);
+      // console.log(checkItem)
+    } catch (error) {
+      console.error('Failed to save sorted platforms:', error);
+    }
   };
 
   return (
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
   },
   selectContainer: {
     borderRadius: 10,
-    backgroundColor: 'gray',
+    backgroundColor: 'rgba(173, 173, 173, 0.8)',
     paddingHorizontal: 10,
     paddingVertical: 10,
     flex: 1,
