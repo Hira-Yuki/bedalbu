@@ -1,4 +1,68 @@
-# Welcome to your Expo app 👋
+# 배달 가계부 - 배달부
+
+배달 플랫폼 노동자를 위한 수익 및 지출 관리 앱. 편리한 데이터 입력 / 조회 기능을 제공합니다.  
+버전: 1.0.0
+
+<!-- [demo link](https://.....) -->
+
+## Installation
+
+### 설치 방법
+
+```bash
+# 저장소를 클론합니다.
+git clone https://github.com/Hira-Yuki/bedalbu.git
+```
+
+```bash
+# 프로젝트 디렉토리로 이동합니다.
+cd bedalbu
+```
+
+```bash
+# 필요한 종속성을 설치합니다.
+npm install
+```
+
+### 로컬 실행 방법
+
+```bash
+# 개발 서버를 시작합니다.
+npm run start
+
+```
+
+## Project Doc
+
+### Built With
+
+| package name | version |
+| ------------ | ------- |
+| React        | 18.2.0  |
+| typescript   | ~5.3.3  |
+
+_자세한 개발 스택은 package.json 참고_
+
+### View
+
+<!-- 추후 변경 필요 -->
+
+1. `app/index.tsx` : Initialize 페이지
+
+## Information
+
+- [project notion](https://fiore-sakura.notion.site/RN-9671e9240abf4e0dbccfe2bfe41c10f6?pvs=4)
+  - {포함 항목}
+  - 기획 배경
+  - 와이어프레임
+  - 태스크
+  - 관련 기술 문서 등
+
+## Author
+
+- [Jinyeong Yun(윤진영)](www.linkedin.com/in/jinyeong-yun-1b995317a)
+
+<!-- # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -47,4 +111,4 @@ To learn more about developing your project with Expo, look at the following res
 Join our community of developers creating universal apps.
 
 - [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions. -->
