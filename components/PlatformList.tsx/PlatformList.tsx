@@ -51,14 +51,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   selectTitle: {
-    color: '#eeeeee',
     fontWeight: '800',
     paddingVertical: 10,
     textAlign: 'center',
   },
   platformItem: {
     padding: 10,
-    backgroundColor: 'rgba(99, 99, 99, 0.8)',
+    backgroundColor: '#fff',
     marginVertical: 5,
     borderRadius: 5,
   },
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   itemText: {
-    color: '#eeeeee',
+    color: '#11181C',
     fontWeight: '600',
   },
 });
