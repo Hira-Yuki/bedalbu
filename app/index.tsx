@@ -1,46 +1,13 @@
+import PlatformList from '@/components/PlatformList.tsx/PlatformList';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useState } from 'react';
-import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
-
-const initialPlatform = ['배달의 민족', '쿠팡 이츠', '요기요', '일반 대행'];
-const STORAGE_KEY = '@my_platforms';
+import { INITIAL_PLATFORM } from "@/constants/initialPlatform";
+import useUserPlatform from '@/hooks/useUserPlatform';
+import React from 'react';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function Initialize() {
-  // 사용자가 선택한 플랫폼 목록을 상태로 관리
-  const [myPlatforms, setMyPlatforms] = useState<string[]>([]);
-
-  // 사용자가 플랫폼을 선택하거나 선택 해제할 때 호출
-  const handlePlatformSelect = (platform: string) => {
-    if (!myPlatforms.includes(platform)) {
-      // 플랫폼이 선택되지 않은 경우: 내 플랫폼 목록에 추가
-      setMyPlatforms([...myPlatforms, platform]);
-    } else {
-      // 이미 선택된 플랫폼인 경우: 내 플랫폼 목록에서 제거
-      setMyPlatforms(myPlatforms.filter(item => item !== platform));
-    }
-  };
-
-  // 완료 버튼을 눌렀을 때 호출
-  const handleComplete = async () => {
-    // myPlatforms 리스트를 initialPlatform의 순서에 맞게 정렬
-    const sortedPlatforms = [...myPlatforms].sort(
-      (a, b) => initialPlatform.indexOf(a) - initialPlatform.indexOf(b)
-    );
-
-    setMyPlatforms(sortedPlatforms);
-
-    // 정렬된 플랫폼을 AsyncStorage에 저장
-    try {
-      console.log('AsyncStorage 호출')
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(sortedPlatforms));
-      // const checkItem = await AsyncStorage.getItem(STORAGE_KEY);
-      // console.log(checkItem)
-    } catch (error) {
-      console.error('Failed to save sorted platforms:', error);
-    }
-  };
+  const { myPlatforms, handlePlatformSelect, handleComplete } = useUserPlatform();
 
   return (
     <ThemedView style={styles.container} >
@@ -54,41 +21,22 @@ export default function Initialize() {
       {/* 플랫폼 선택 및 내 플랫폼 리스트 표시 영역 */}
       <ThemedView style={styles.selectArea}>
         {/* 사용 가능한 플랫폼 리스트 */}
-        <ThemedView style={styles.selectContainer}>
-          <ThemedText style={styles.selectTitle}>플랫폼 선택</ThemedText>
-          <FlatList
-            data={initialPlatform} // 초기 플랫폼 목록을 데이터로 사용
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={[
-                  styles.platformItem,
-                  myPlatforms.includes(item) && styles.selectedPlatformItem
-                ]}
-                onPress={() => handlePlatformSelect(item)} // 아이템 클릭 시 플랫폼 선택 함수 호출
-              >
-                <ThemedText style={styles.itemText}>{item}</ThemedText>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item} // 각 항목의 키로 플랫폼 이름 사용
-          />
-        </ThemedView>
+        <PlatformList
+          platforms={INITIAL_PLATFORM}
+          myPlatforms={myPlatforms}
+          handlePlatformSelect={handlePlatformSelect}
+          title="플랫폼 선택"
+          isSelected={false}
+        />
 
         {/* 사용자가 선택한 플랫폼 리스트 */}
-        <ThemedView style={styles.selectContainer}>
-          <ThemedText style={styles.selectTitle}>내 플랫폼</ThemedText>
-          <FlatList
-            data={myPlatforms} // 사용자가 선택한 플랫폼 목록을 데이터로 사용
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.platformItem}
-                onPress={() => handlePlatformSelect(item)} // 아이템 클릭 시 플랫폼 선택 해제 함수 호출
-              >
-                <ThemedText style={styles.itemText} >{item}</ThemedText>
-              </TouchableOpacity>
-            )}
-            keyExtractor={item => item} // 각 항목의 키로 플랫폼 이름 사용
-          />
-        </ThemedView>
+        <PlatformList
+          platforms={myPlatforms}
+          myPlatforms={myPlatforms}
+          handlePlatformSelect={handlePlatformSelect}
+          title="내 플랫폼"
+          isSelected={true}
+        />
       </ThemedView>
 
       {/* 완료 버튼 영역 */}
@@ -126,34 +74,6 @@ const styles = StyleSheet.create({
     gap: 10,
     marginVertical: 30,
     marginHorizontal: 20,
-  },
-  selectTitle: {
-    color: '#eeeeee',
-    fontWeight: '800',
-    paddingVertical: 10,
-    textAlign: 'center'
-  },
-  selectContainer: {
-    borderRadius: 10,
-    backgroundColor: 'rgba(173, 173, 173, 0.8)',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-    flex: 1,
-    justifyContent: 'flex-start',
-    gap: 10,
-  },
-  platformItem: {
-    padding: 10,
-    backgroundColor: 'rgba(99, 99, 99, 0.8)',
-    marginVertical: 5,
-    borderRadius: 5,
-  },
-  itemText: {
-    color: '#eeeeee',
-    fontWeight: '600'
-  },
-  selectedPlatformItem: {
-    opacity: 0.3,
   },
   buttonArea: {
     flex: 2,
