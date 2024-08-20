@@ -3,7 +3,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import useDate from "@/hooks/useDate";
 import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet, useColorScheme } from "react-native";
+import { ScrollView, StyleSheet, useColorScheme } from "react-native";
 
 export default function Home() {
   const { thisYear, thisMonth } = useDate()
@@ -19,7 +19,6 @@ export default function Home() {
   const shadowColor = isDarkMode
     ? '#ECEDEE'
     : '#11181C';
-
 
   return (
     <ThemedView style={styles.container}>
@@ -44,8 +43,29 @@ export default function Home() {
           <ThemedText style={styles.totalText}>0건</ThemedText>
         </LinearGradient>
       </ThemedView>
+      {/** 
+       * 스크롤 가능한 뷰
+       * 이 영역 안에 있는 항목만 스크롤 가능, 위 아래 영역은 Fixed 요소로 동작함
+       * 탭과 헤더 부분을 침범하지 않고 동작
+       */}
+      <ScrollView>
+        {/* 플랫폼별 이번달 수행 건수 / 수익 */}
+        {/* 상세한 명세를 볼 수 있는 버튼 */}
 
-      <ThemedText>달력 위치</ThemedText>
+        {/**
+       * @TODO 달력 내부에 커스터마이징 가능한 텍스트를 추가할 수 있는 라이브러리 찾기, 없으면 만들어야함. LOL
+       */}
+        <ThemedView>
+          <ThemedText>달력</ThemedText>
+        </ThemedView>
+
+        {/**
+       * @TODO 수익을 그래프로 만들어줄 라이브러리 찾기, 없으면 만들어야함. LOL
+       */}
+        <ThemedView>
+          <ThemedText>수익 그래프</ThemedText>
+        </ThemedView>
+      </ScrollView>
     </ThemedView>
   );
 }
