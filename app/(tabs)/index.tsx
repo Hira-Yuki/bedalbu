@@ -4,6 +4,16 @@ import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import useDate from "@/hooks/useDate";
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+
+
+interface DayData {
+  dateString: string;
+  day: number;
+  month: number;
+  timestamp: number;
+  year: number;
+}
 
 export default function Home() {
   const { thisYear, thisMonth } = useDate()
@@ -19,6 +29,28 @@ export default function Home() {
   const shadowColor = isDarkMode
     ? '#ECEDEE'
     : '#11181C';
+
+  LocaleConfig.locales['ko'] = {
+    monthNames: [
+      '1월',
+      '2월',
+      '3월',
+      '4월',
+      '5월',
+      '6월',
+      '7월',
+      '8월',
+      '9월',
+      '10월',
+      '11월',
+      '12월'
+    ],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
+    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+    today: "오늘"
+  };
+  LocaleConfig.defaultLocale = 'ko';
 
   return (
     <ThemedView style={styles.container}>
@@ -56,7 +88,19 @@ export default function Home() {
        * @TODO 달력 내부에 커스터마이징 가능한 텍스트를 추가할 수 있는 라이브러리 찾기, 없으면 만들어야함. LOL
        */}
         <ThemedView>
-          <ThemedText>달력</ThemedText>
+          <Calendar
+            // 날짜 선택 시 실행될 함수
+            onDayPress={(day: DayData) => {
+              console.log('selected day', day);
+            }}
+            monthFormat={'yyyy년 MM월'}
+            disableMonthChange
+            hideExtraDays
+            hideArrows
+          // renderHeader={(date: Date) =>
+          //   <ThemedText>{date.toISOString().split('T')[0]}</ThemedText>
+          // }
+          />
         </ThemedView>
 
         {/**
