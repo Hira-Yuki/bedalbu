@@ -1,23 +1,16 @@
+import MonthlyCalendar from "@/components/MonthlyCalendar";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
-import useDate from "@/hooks/useDate";
+import { recoilDateString } from '@/recoil/store';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, useColorScheme } from "react-native";
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { useRecoilValue } from "recoil";
 
 
-interface DayData {
-  dateString: string;
-  day: number;
-  month: number;
-  timestamp: number;
-  year: number;
-}
 
 export default function Home() {
-  const { thisYear, thisMonth } = useDate()
-  const userViewMonth = thisMonth + 1
+  const [thisYear, thisMonth] = useRecoilValue(recoilDateString);
 
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
@@ -30,33 +23,13 @@ export default function Home() {
     ? '#ECEDEE'
     : '#11181C';
 
-  LocaleConfig.locales['ko'] = {
-    monthNames: [
-      '1월',
-      '2월',
-      '3월',
-      '4월',
-      '5월',
-      '6월',
-      '7월',
-      '8월',
-      '9월',
-      '10월',
-      '11월',
-      '12월'
-    ],
-    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    dayNames: ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일'],
-    dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-    today: "오늘"
-  };
-  LocaleConfig.defaultLocale = 'ko';
+
 
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
       <ThemedView style={styles.header}>
-        <ThemedText style={styles.viewMonth}>{`${thisYear}년 ${userViewMonth}월`}</ThemedText>
+        <ThemedText style={styles.viewMonth}>{`${thisYear}년 ${thisMonth}월`}</ThemedText>
         <ThemedView style={styles.monthlyIncomeContainer}>
           <ThemedText>목표 월급</ThemedText>
           <ThemedText style={styles.monthlyIncome}>2,000,000 원</ThemedText>
@@ -82,30 +55,17 @@ export default function Home() {
        */}
       <ScrollView>
         {/* 플랫폼별 이번달 수행 건수 / 수익 */}
+
         {/* 상세한 명세를 볼 수 있는 버튼 */}
 
         {/**
-       * @TODO 달력 내부에 커스터마이징 가능한 텍스트를 추가할 수 있는 라이브러리 찾기, 없으면 만들어야함. LOL
-       */}
-        <ThemedView>
-          <Calendar
-            // 날짜 선택 시 실행될 함수
-            onDayPress={(day: DayData) => {
-              console.log('selected day', day);
-            }}
-            monthFormat={'yyyy년 MM월'}
-            disableMonthChange
-            hideExtraDays
-            hideArrows
-          // renderHeader={(date: Date) =>
-          //   <ThemedText>{date.toISOString().split('T')[0]}</ThemedText>
-          // }
-          />
-        </ThemedView>
+          * @TODO 달력에 데이터 뿌려주고 보여줄 방법 찾기
+          */}
+        <MonthlyCalendar />
 
         {/**
-       * @TODO 수익을 그래프로 만들어줄 라이브러리 찾기, 없으면 만들어야함. LOL
-       */}
+          * @TODO 수익을 그래프로 만들어줄 라이브러리 찾기, 없으면 만들어야함. LOL
+          */}
         <ThemedView>
           <ThemedText>수익 그래프</ThemedText>
         </ThemedView>
@@ -119,12 +79,12 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH,
     flex: 1,
     marginTop: 60,
-    padding: 5,
+    padding: 10,
     alignItems: "center",
   },
   header: {
     marginVertical: 10,
-    width: SCREEN_WIDTH * 0.9,
+    width: '100%',
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between'
@@ -142,6 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   shadow: {
+    width: '100%',
     borderRadius: 8,
     marginVertical: 10,
     shadowOffset: { width: 10, height: 4 },
@@ -161,5 +122,5 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     fontWeight: '700',
     fontSize: 20,
-  }
+  },
 });
