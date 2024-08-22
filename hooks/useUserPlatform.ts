@@ -33,6 +33,7 @@ export default function useUserPlatform() {
       const userPlatform = (await AsyncStorage.getItem(STORAGE_KEY)) as string;
       const json = await JSON.parse(userPlatform);
       userPlatform && setMyPlatforms(json);
+      return json ?? [];
     } catch (error) {
       console.log('Failed to load platforms: ', error);
       Alert.alert(
