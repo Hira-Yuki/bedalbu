@@ -1,4 +1,4 @@
-import MonthlyCalendar from "@/components/MonthlyCalendar";
+import MonthlyCalendar from "@/components/calendars/MonthlyCalendar";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";

@@ -24,11 +24,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="myPage"
+        name="config"
         options={{
-          title: 'My Page',
+          title: 'Config',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'man' : 'man-outline'} color={color} />
+            <TabBarIcon name={focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline'} color={color} />
           ),
         }}
       />

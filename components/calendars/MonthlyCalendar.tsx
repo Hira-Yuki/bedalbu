@@ -3,6 +3,7 @@ import { Colors } from "@/constants/Colors";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import { StyleSheet, useColorScheme } from "react-native";
 import { Calendar, LocaleConfig } from 'react-native-calendars';
+import CalendarHeader from "./CalendarHeader";
 
 LocaleConfig.locales['ko'] = {
   monthNames: [
@@ -38,7 +39,6 @@ export default function MonthlyCalendar() {
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
   const backgroundColor = isDarkMode ? '#111314' : '#ECEDEE'
-  // const backgroundColor = Colors[colorScheme ?? 'light'].background;
   const textColor = Colors[colorScheme ?? 'light'].text;
 
   return (
@@ -50,9 +50,7 @@ export default function MonthlyCalendar() {
           textSectionTitleColor: textColor,
           dayTextColor: textColor,
           todayTextColor: '#00adf5',
-          selectedDayTextColor: '#ffffff',
-          monthTextColor: textColor,
-          arrowColor: textColor,
+          selectedDayTextColor: 'tomato',
         }}
         // 날짜 선택 시 실행될 함수
         onDayPress={(day: CalendarObjectType) => {
@@ -66,7 +64,9 @@ export default function MonthlyCalendar() {
            * @TODO 별도의 데이터 처리하여 보여줄 것
            * @EX 일평균, 남은 일평균, 운행거리, 운행 시간, 휴무일 설정
            */
-          return null
+          return (
+            <CalendarHeader isDarkMode={isDarkMode} />
+          )
         }}
       />
     </ThemedView>
