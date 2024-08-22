@@ -33,14 +33,15 @@ export default function useUserPlatform() {
       const userPlatform = (await AsyncStorage.getItem(STORAGE_KEY)) as string;
       const json = await JSON.parse(userPlatform);
       userPlatform && setMyPlatforms(json);
-      return json ?? [];
+      return json;
     } catch (error) {
       console.log('Failed to load platforms: ', error);
       Alert.alert(
         '플랫폼 불러오기 에러',
-        '시스템 저장 공간에 접근할 수 없습니다. 저장공간에 접근 권한을 확인해 주세요.',
+        '저장된 데이터를 불러오는데 실패했습니다.',
       );
       // TODO: 사용자에게 초기화 여부 질문 후 OK 하면 초기화 후 앱 기동
+      // prompt() 메서드 iOS 전용으로 확인.. 대안 필요..
     } finally {
       setIsLoading(false);
     }

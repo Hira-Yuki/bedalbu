@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 
 export default function InitialLoading() {
   const { loadPlatform } = useUserPlatform();
-  const [userPlatforms, setUserPlatforms] = useRecoilState(recoilPlatformList);
+  const [, setUserPlatforms] = useRecoilState(recoilPlatformList);
   const router = useRouter();
 
   useEffect(() => {
@@ -17,10 +17,8 @@ export default function InitialLoading() {
       setUserPlatforms(loadedPlatforms);  // 로드된 플랫폼을 상태에 설정합니다.
       loadedPlatforms.length > 0 ? router.push('/(tabs)') : router.push('/initializer')
     };
+
     initializePlatforms()
-
-
-
   }, [])
 
   return (
