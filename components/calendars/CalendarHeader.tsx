@@ -1,5 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StyleSheet, TouchableOpacity } from "react-native";
 
@@ -10,14 +11,20 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 //   ['운행시간', '40:00', '일평균 7시간', '시급 11090원'],
 // ]
 
-export default function CalendarHeader({ isDarkMode }: { isDarkMode: boolean }) {
-  const themeColor = isDarkMode ? '#ECEDEE' : '#111314'
+export default function CalendarHeader({ lightColor,
+  darkColor }: {
+    lightColor?: string;
+    darkColor?: string;
+  }) {
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor');
+  const buttonBackgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const PressOffDay = () => {
     console.log('PressOffDay')
   }
 
   return (
-    <ThemedView style={styles.headerContainer}>
+    <ThemedView style={{ ...styles.headerContainer, backgroundColor: backgroundColor }}>
       <ThemedView style={styles.headerItem}>
         <ThemedText style={styles.contentsTitle}>
           일 평균
@@ -72,11 +79,11 @@ export default function CalendarHeader({ isDarkMode }: { isDarkMode: boolean }) 
       <TouchableOpacity onPress={PressOffDay}>
         <ThemedView style={{
           ...styles.offDayContainer,
-          borderColor: themeColor,
-          shadowColor: isDarkMode ? '#FFF' : '#000',
-          backgroundColor: isDarkMode ? '#333' : '#FFF',
+          borderColor: color,
+          shadowColor: color,
+          backgroundColor: buttonBackgroundColor,
         }}>
-          <FontAwesome5 name="calendar-check" size={15} color={themeColor} />
+          <FontAwesome5 name="calendar-check" size={15} color={color} />
           <ThemedText style={styles.offDayText}>휴무일</ThemedText>
         </ThemedView>
       </TouchableOpacity>
@@ -97,6 +104,7 @@ const styles = StyleSheet.create({
     margin: 0,
     padding: 0,
     gap: 0,
+    backgroundColor: 'inherit',
   },
   contentsTitle: {
     fontSize: 12,

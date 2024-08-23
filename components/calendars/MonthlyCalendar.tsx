@@ -1,6 +1,7 @@
 import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { useEffect, useState } from "react";
 import { StyleSheet, useColorScheme } from "react-native";
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import CalendarHeader from "./CalendarHeader";
@@ -35,20 +36,29 @@ interface CalendarObjectType {
   year: number;
 }
 
-export default function MonthlyCalendar() {
-  const colorScheme = useColorScheme();
-  const isDarkMode = colorScheme === 'dark';
-  const backgroundColor = isDarkMode ? '#111314' : '#ECEDEE'
-  const textColor = Colors[colorScheme ?? 'light'].text;
+export default function MonthlyCalendar({ lightColor,
+  darkColor }: {
+    lightColor?: string;
+    darkColor?: string;
+  }) {
+  const [key, setKey] = useState(0);
+  const scheme = useColorScheme();
+
+  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor')
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+
+  useEffect(() => {
+    setKey(prevKey => prevKey + 1);
+  }, [scheme]);
 
   return (
     <ThemedView style={styles.calendarContainer}>
       <Calendar
+        key={key}
         theme={{
-          backgroundColor: backgroundColor,
           calendarBackground: backgroundColor,
-          textSectionTitleColor: textColor,
-          dayTextColor: textColor,
+          textSectionTitleColor: color,
+          dayTextColor: color,
           todayTextColor: '#00adf5',
           selectedDayTextColor: 'tomato',
         }}
@@ -65,7 +75,7 @@ export default function MonthlyCalendar() {
            * @EX 일평균, 남은 일평균, 운행거리, 운행 시간, 휴무일 설정
            */
           return (
-            <CalendarHeader isDarkMode={isDarkMode} />
+            <CalendarHeader />
           )
         }}
       />

@@ -12,10 +12,10 @@ export default function LoadingIndicator({ lightColor,
   const animatedValues = useRef(
     Array.from({ length: text.length }, () => new Animated.Value(0))
   ).current;
-
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
   const ANIMATION_DURATION = 300; // 각 애니메이션의 지속 시간
   const ANIMATION_DELAY = 100; // 각 글자 간의 딜레이
+
+  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
   useEffect(() => {
     const animations = animatedValues.map((animatedValue, index) => (
@@ -91,7 +91,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   header: {
-    // padding: 10,
     fontSize: 32,
     fontWeight: '700',
   },
