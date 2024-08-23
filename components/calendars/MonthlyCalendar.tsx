@@ -47,6 +47,8 @@ export default function MonthlyCalendar({ lightColor,
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor')
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
+  // Calendar 라이브러리의 theme color가 시스템 테마 변경에 동적으로 반응하지 않음.
+  // key 값이 변경되면 강제 랜더링 되는 것을 활용해서 테마 변경이 감지되면 Key를 변경해서 강제 랜더링 시켜줌
   useEffect(() => {
     setKey(prevKey => prevKey + 1);
   }, [scheme]);
