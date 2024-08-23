@@ -3,12 +3,13 @@ import { ThemedView } from "@/components/ThemedView";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StyleSheet, TouchableOpacity } from "react-native";
 
-const calums = [
-  ['일평균', 40000, '(4일)'],
-  ['남은 일평균', 140000, '(14일)'],
-  ['운행거리', 40000, '일평균 350', '1130원/km'],
-  ['운행시간', '40:00', '일평균 7시간', '시급 11090원'],
-]
+// const colum = [
+//   ['일평균', 40000, '(4일)'],
+//   ['남은 일평균', 140000, '(14일)'],
+//   ['운행거리', 40000, '일평균 350', '1130원/km'],
+//   ['운행시간', '40:00', '일평균 7시간', '시급 11090원'],
+// ]
+
 export default function CalendarHeader({ isDarkMode }: { isDarkMode: boolean }) {
   const themeColor = isDarkMode ? '#ECEDEE' : '#111314'
   const PressOffDay = () => {
