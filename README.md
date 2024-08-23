@@ -55,8 +55,7 @@ _자세한 개발 스택은 package.json 참고_
 ### etc
 `components/LoadingIndicator`
 
-![LoadingIndicator](https://github.com/user-attachments/assets/7c36e7d7-e91a-4434-bead-d85a9fd9397b)
-
+![LoadingIndicator](https://github.com/user-attachments/assets/cac811d9-fc2c-4311-9568-96bafd1c9a33)
 
 ## Information
 
