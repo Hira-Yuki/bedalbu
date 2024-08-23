@@ -50,17 +50,17 @@ _자세한 개발 스택은 package.json 참고_
 1. `app/index.tsx` : 앱 기동 시 데이터 로드 후 결과에 따른 분기처리
 2. `app/initializer.tsx` : 데이터 로드 결과 데이터가 없을 시 이동되는 초기 설정 화면
 3. `app/(tabs)/index.tsx` : 앱의 메인 화면, 현재 날짜를 가져와 이달의 수행 내역을 표시함
-  
-  
+
 ### etc
+
 `components/LoadingIndicator`
 
-![LoadingIndicator](https://github.com/user-attachments/assets/cac811d9-fc2c-4311-9568-96bafd1c9a33)
+![LoadingIndicator](https://velog.velcdn.com/images/yukihira/post/963adda6-7d60-41ee-878d-85fd6077cdd1/image.webp)
 
 ## Information
 
 - [project notion](https://fiore-sakura.notion.site/RN-9671e9240abf4e0dbccfe2bfe41c10f6?pvs=4)
-  - {포함 항목}
+  <!-- {포함 항목} -->
   - 기획 배경
   - 와이어프레임
   - 태스크
