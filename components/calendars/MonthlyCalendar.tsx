@@ -1,8 +1,7 @@
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useEffect, useState } from "react";
-import { StyleSheet, useColorScheme } from "react-native";
+import { StyleSheet } from "react-native";
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import CalendarHeader from "./CalendarHeader";
 
@@ -41,22 +40,14 @@ export default function MonthlyCalendar({ lightColor,
     lightColor?: string;
     darkColor?: string;
   }) {
-  const [key, setKey] = useState(0);
-  const scheme = useColorScheme();
 
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor')
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
-  // Calendar 라이브러리의 theme color가 시스템 테마 변경에 동적으로 반응하지 않음.
-  // key 값이 변경되면 강제 랜더링 되는 것을 활용해서 테마 변경이 감지되면 Key를 변경해서 강제 랜더링 시켜줌
-  useEffect(() => {
-    setKey(prevKey => prevKey + 1);
-  }, [scheme]);
-
   return (
     <ThemedView style={styles.calendarContainer}>
       <Calendar
-        key={key}
+        key={`${backgroundColor}-${color}`} // 테마 변경시 강제 랜더링을 위한 key
         theme={{
           calendarBackground: backgroundColor,
           textSectionTitleColor: color,
