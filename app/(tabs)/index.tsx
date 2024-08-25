@@ -1,4 +1,5 @@
 import MonthlyCalendar from "@/components/calendars/MonthlyCalendar";
+import PlatformIncomes from "@/components/PlatformIncomes";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
@@ -6,8 +7,6 @@ import { recoilDateString } from '@/recoil/store';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, useColorScheme } from "react-native";
 import { useRecoilValue } from "recoil";
-
-
 
 export default function Home() {
   const [thisYear, thisMonth] = useRecoilValue(recoilDateString);
@@ -23,8 +22,6 @@ export default function Home() {
     ? '#ECEDEE'
     : '#11181C';
 
-
-
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
@@ -35,7 +32,6 @@ export default function Home() {
           <ThemedText style={styles.monthlyIncome}>2,000,000 원</ThemedText>
         </ThemedView>
       </ThemedView>
-
       {/* 인컴 */}
       <ThemedView style={{ ...styles.shadow, shadowColor }}>
         <LinearGradient
@@ -54,9 +50,18 @@ export default function Home() {
        * 탭과 헤더 부분을 침범하지 않고 동작
        */}
       <ScrollView>
-        {/* 플랫폼별 이번달 수행 건수 / 수익 */}
-
-        {/* 상세한 명세를 볼 수 있는 버튼 */}
+        <ThemedView style={styles.platformIncome}>
+          {/* 플랫폼별 이번달 수행 건수 / 수익 */}
+          <PlatformIncomes />
+          <ThemedView>
+            <ThemedText>
+              - 1022원 (4.4%)
+            </ThemedText>
+            <ThemedText>
+              40000원 {/* 상세한 명세를 볼 수 있는 버튼 */}
+            </ThemedText>
+          </ThemedView>
+        </ThemedView>
 
         {/**
           * @TODO 달력에 데이터 뿌려주고 보여줄 방법 찾기
@@ -123,4 +128,9 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 20,
   },
+  platformIncome: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  }
 });
