@@ -34,7 +34,7 @@ export const recoilActivePlatforms = selector({
     const filetedActivePlatform = [...userPlatforms].reduce<string[]>(
       (acc, platform) => {
         if (platform.isActive) {
-          acc.push(platform.platformName);
+          acc.push(platform.platformId);
         }
         return acc;
       },

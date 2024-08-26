@@ -6,7 +6,16 @@
     "source.fixAll.eslint": "always",
     "source.organizeImports": "always"
   },
-  "cSpell.words": ["darkred", "ellipsize", "Fontisto", "Geocode", "Plemons"],
+  "cSpell.words": [
+    "baemin",
+    "coupang",
+    "darkred",
+    "ellipsize",
+    "Fontisto",
+    "Geocode",
+    "Plemons",
+    "yogiyo"
+  ],
   "javascript.updateImportsOnFileMove.enabled": "always",
   "typescript.updateImportsOnFileMove.enabled": "always",
   "typescript.tsserver.log": "verbose",

@@ -62,7 +62,7 @@ export default function Home() {
       <ScrollView>
         <ThemedView style={styles.platformIncome}>
           {/* 플랫폼별 이번달 수행 건수 / 수익 */}
-          <PlatformIncomes userPlatforms={activePlatforms} />
+          <PlatformIncomes activePlatforms={activePlatforms} />
           <ThemedView>
             <ThemedText>
               - 1022원 (4.4%)
@@ -142,5 +142,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    paddingHorizontal: 5,
+    marginVertical: 5,
   }
 });

@@ -95,10 +95,9 @@ export default function CalendarHeader({ lightColor,
 const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 10,
     marginVertical: 10,
-    padding: 8,
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   headerItem: {
     margin: 0,
