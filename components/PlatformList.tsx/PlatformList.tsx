@@ -1,11 +1,12 @@
+import { platformType } from '@/constants/initialPlatform';
 import { FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from '../ThemedText';
 import { ThemedView } from '../ThemedView';
 
 interface PlatformListPropsType {
-  platforms: string[]; // 표시할 플랫폼 목록
-  myPlatforms: string[]; // 사용자가 선택한 플랫폼 목록
-  handlePlatformSelect: (value: string) => void; // 플랫폼 선택/해제 함수
+  platforms: platformType[]; // 표시할 플랫폼 목록
+  myPlatforms: platformType[]; // 사용자가 선택한 플랫폼 목록
+  handlePlatformSelect: (value: platformType) => void; // 플랫폼 선택/해제 함수
   title: string; // 컴포넌트 제목
   isSelected?: boolean; // 사용자가 선택한 리스트인가?
 }
@@ -17,6 +18,7 @@ export default function PlatformList({
   title,
   isSelected,
 }: PlatformListPropsType) {
+
 
   return (
     <ThemedView style={styles.selectContainer}>
@@ -31,10 +33,10 @@ export default function PlatformList({
             ]}
             onPress={() => handlePlatformSelect(item)}
           >
-            <ThemedText style={styles.itemText}>{item}</ThemedText>
+            <ThemedText style={styles.itemText}>{item.platformName}</ThemedText>
           </TouchableOpacity>
         )}
-        keyExtractor={(item) => item}
+        keyExtractor={(item) => item.platformName}
       />
     </ThemedView>
   );

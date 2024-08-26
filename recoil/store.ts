@@ -1,3 +1,4 @@
+import { platformType } from '@/constants/initialPlatform';
 import { atom, selector } from 'recoil';
 
 // export const textState = atom({
@@ -13,7 +14,7 @@ import { atom, selector } from 'recoil';
 //   },
 // });
 
-export const recoilPlatformList = atom<string[]>({
+export const recoilPlatformList = atom<platformType[]>({
   key: 'platformList',
   default: [],
 });

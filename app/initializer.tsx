@@ -20,7 +20,6 @@ export default function Initializer() {
     setUserPlatforms(myPlatforms)
   }, [isLoading])
 
-
   const handleComplete = async () => {
     await savePlatform(() => router.push('/(tabs)'));
   }
@@ -65,6 +64,7 @@ export default function Initializer() {
     </ThemedView>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

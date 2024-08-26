@@ -1,4 +1,4 @@
-import { INITIAL_PLATFORM } from '@/constants/initialPlatform';
+import { INITIAL_PLATFORM, platformType } from '@/constants/initialPlatform';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import { Alert } from 'react-native';
@@ -6,34 +6,15 @@ import { Alert } from 'react-native';
 const STORAGE_KEY = '@my_platforms';
 
 export default function useUserPlatform() {
-  const [myPlatforms, setMyPlatforms] = useState<string[]>([]);
+  const [myPlatforms, setMyPlatforms] = useState<platformType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const sortingSelectedList = (array: string[]) => {
-    return [...array].sort(
-      (a, b) => INITIAL_PLATFORM.indexOf(a) - INITIAL_PLATFORM.indexOf(b),
-    );
-  };
-
-  // 사용자가 플랫폼을 선택하거나 선택 해제할 때 호출
-  const handlePlatformSelect = (platform: string) => {
-    if (!myPlatforms.includes(platform)) {
-      // 플랫폼이 선택되지 않은 경우: 내 플랫폼 목록에 추가
-      setMyPlatforms(sortingSelectedList([...myPlatforms, platform]));
-    } else {
-      // 이미 선택된 플랫폼인 경우: 내 플랫폼 목록에서 제거
-      setMyPlatforms(
-        sortingSelectedList(myPlatforms.filter(item => item !== platform)),
-      );
-    }
-  };
 
   const loadPlatform = async () => {
     try {
       const userPlatform = (await AsyncStorage.getItem(STORAGE_KEY)) as string;
       const json = await JSON.parse(userPlatform);
       userPlatform && setMyPlatforms(json);
-      return json;
+      return json ?? null;
     } catch (error) {
       console.log('Failed to load platforms: ', error);
       Alert.alert(
@@ -47,6 +28,25 @@ export default function useUserPlatform() {
     }
   };
 
+  const sortingSelectedList = (array: platformType[]) => {
+    return [...array].sort(
+      (a, b) => INITIAL_PLATFORM.indexOf(a) - INITIAL_PLATFORM.indexOf(b),
+    );
+  };
+
+  // 사용자가 플랫폼을 선택하거나 선택 해제할 때 호출
+  const handlePlatformSelect = (platform: platformType) => {
+    if (!myPlatforms.includes(platform)) {
+      // 플랫폼이 선택되지 않은 경우: 내 플랫폼 목록에 추가
+      setMyPlatforms(sortingSelectedList([...myPlatforms, platform]));
+    } else {
+      // 이미 선택된 플랫폼인 경우: 내 플랫폼 목록에서 제거
+      setMyPlatforms(
+        sortingSelectedList(myPlatforms.filter(item => item !== platform)),
+      );
+    }
+  };
+
   // 선택된 플랫폼을 AsyncStorage에 저장
   const savePlatform = async (router: () => void) => {
     if (myPlatforms.length === 0)
@@ -57,9 +57,12 @@ export default function useUserPlatform() {
 
     try {
       console.log('AsyncStorage 호출');
-      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(myPlatforms));
+      const newPlatforms = INITIAL_PLATFORM.map(platform => ({
+        ...platform,
+        isActive: myPlatforms.includes(platform),
+      }));
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newPlatforms));
       router();
-      return true;
     } catch (error) {
       console.log('Failed to save platforms: ', error);
       return Alert.alert(

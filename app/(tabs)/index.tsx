@@ -3,14 +3,22 @@ import PlatformIncomes from "@/components/PlatformIncomes";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
-import { recoilDateString } from '@/recoil/store';
+import { recoilDateString, recoilPlatformList } from '@/recoil/store';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, useColorScheme } from "react-native";
 import { useRecoilValue } from "recoil";
 
 export default function Home() {
   const [thisYear, thisMonth] = useRecoilValue(recoilDateString);
-
+  const userPlatforms = useRecoilValue(recoilPlatformList);
+  /* 
+  [
+    {"isActive": true, "platformId": "1", "platformName": "배달의 민족"}, 
+    {"isActive": true, "platformId": "2", "platformName": "쿠팡 이츠"}, 
+    {"isActive": false, "platformId": "3", "platformName": "요기요"}, 
+    {"isActive": false, "platformId": "4", "platformName": "일반 대행"}
+  ]
+  */
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
 
@@ -52,13 +60,13 @@ export default function Home() {
       <ScrollView>
         <ThemedView style={styles.platformIncome}>
           {/* 플랫폼별 이번달 수행 건수 / 수익 */}
-          <PlatformIncomes />
+          <PlatformIncomes userPlatforms={userPlatforms} />
           <ThemedView>
             <ThemedText>
               - 1022원 (4.4%)
             </ThemedText>
             <ThemedText>
-              40000원 {/* 상세한 명세를 볼 수 있는 버튼 */}
+              40000원 {/* 상세한 명세를 볼 수 있는 버튼 추가 */}
             </ThemedText>
           </ThemedView>
         </ThemedView>

@@ -1,7 +1,9 @@
+import { platformType } from "@/constants/initialPlatform";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
 
-export default function PlatformIncomes() {
+export default function PlatformIncomes({ userPlatforms }: { userPlatforms: platformType[] }) {
+
   return (
     <ThemedView>
       <ThemedText>
