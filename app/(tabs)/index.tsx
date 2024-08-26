@@ -3,15 +3,15 @@ import PlatformIncomes from "@/components/PlatformIncomes";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
-import { recoilActivePlatforms, recoilDateString, recoilPlatformList } from '@/recoil/store';
+import { recoilActivePlatforms, recoilDateString } from '@/recoil/store';
 import { LinearGradient } from 'expo-linear-gradient';
 import { ScrollView, StyleSheet, useColorScheme } from "react-native";
 import { useRecoilValue } from "recoil";
 
 export default function Home() {
   const [thisYear, thisMonth] = useRecoilValue(recoilDateString);
-  const userPlatforms = useRecoilValue(recoilPlatformList);
   /* 
+  const userPlatforms = useRecoilValue(recoilPlatformList);
   [
     {"isActive": true, "platformId": "1", "platformName": "배달의 민족"}, 
     {"isActive": true, "platformId": "2", "platformName": "쿠팡 이츠"}, 
@@ -60,29 +60,31 @@ export default function Home() {
        * 탭과 헤더 부분을 침범하지 않고 동작
        */}
       <ScrollView>
-        <ThemedView style={styles.platformIncome}>
-          {/* 플랫폼별 이번달 수행 건수 / 수익 */}
-          <PlatformIncomes activePlatforms={activePlatforms} />
-          <ThemedView>
-            <ThemedText>
-              - 1022원 (4.4%)
-            </ThemedText>
-            <ThemedText>
-              40000원 {/* 상세한 명세를 볼 수 있는 버튼 추가 */}
-            </ThemedText>
+        <ThemedView style={styles.scrollViewContainer}>
+          <ThemedView style={styles.platformIncome}>
+            {/* 플랫폼별 이번달 수행 건수 / 수익 */}
+            <PlatformIncomes activePlatforms={activePlatforms} />
+            <ThemedView>
+              <ThemedText>
+                - 1022원 (4.4%)
+              </ThemedText>
+              <ThemedText>
+                40000원 {/* 상세한 명세를 볼 수 있는 버튼 추가 */}
+              </ThemedText>
+            </ThemedView>
           </ThemedView>
-        </ThemedView>
 
-        {/**
+          {/**
           * @TODO 달력에 데이터 뿌려주고 보여줄 방법 찾기
           */}
-        <MonthlyCalendar />
+          <MonthlyCalendar />
 
-        {/**
+          {/**
           * @TODO 수익을 그래프로 만들어줄 라이브러리 찾기, 없으면 만들어야함. LOL
           */}
-        <ThemedView>
-          <ThemedText>수익 그래프</ThemedText>
+          <ThemedView>
+            <ThemedText>수익 그래프</ThemedText>
+          </ThemedView>
         </ThemedView>
       </ScrollView>
     </ThemedView>
@@ -137,6 +139,10 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     fontWeight: '700',
     fontSize: 20,
+  },
+  scrollViewContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
   platformIncome: {
     flexDirection: 'row',
