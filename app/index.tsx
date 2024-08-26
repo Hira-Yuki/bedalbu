@@ -11,7 +11,6 @@ export default function InitialLoading() {
   const router = useRouter();
 
   useEffect(() => {
-
     const initializePlatforms = async () => {
       const loadedPlatforms = await loadPlatform();  // 플랫폼을 로드합니다.
       setUserPlatforms(loadedPlatforms);  // 로드된 플랫폼을 상태에 설정합니다.

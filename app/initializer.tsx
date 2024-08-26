@@ -3,22 +3,12 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { INITIAL_PLATFORM } from "@/constants/initialPlatform";
 import useUserPlatform from '@/hooks/useUserPlatform';
-import { recoilPlatformList } from '@/recoil/store';
 import { useRouter } from 'expo-router';
-import { useEffect } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { useRecoilState } from 'recoil';
-
 
 export default function Initializer() {
-  const { myPlatforms, handlePlatformSelect, savePlatform, loadPlatform, isLoading } = useUserPlatform();
-  const [, setUserPlatforms] = useRecoilState(recoilPlatformList);
+  const { myPlatforms, handlePlatformSelect, savePlatform } = useUserPlatform();
   const router = useRouter();
-
-  useEffect(() => {
-    loadPlatform()
-    setUserPlatforms(myPlatforms)
-  }, [isLoading])
 
   const handleComplete = async () => {
     await savePlatform(() => router.push('/(tabs)'));

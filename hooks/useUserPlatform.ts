@@ -1,20 +1,32 @@
 import { INITIAL_PLATFORM, platformType } from '@/constants/initialPlatform';
+import { recoilPlatformList } from '@/recoil/store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState } from 'react';
 import { Alert } from 'react-native';
+import { useRecoilState } from 'recoil';
 
 const STORAGE_KEY = '@my_platforms';
+
+const sortingSelectedList = (array: platformType[]) => {
+  return [...array].sort(
+    (a, b) => INITIAL_PLATFORM.indexOf(a) - INITIAL_PLATFORM.indexOf(b),
+  );
+};
 
 export default function useUserPlatform() {
   const [myPlatforms, setMyPlatforms] = useState<platformType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [, setUserPlatforms] = useRecoilState(recoilPlatformList);
 
   const loadPlatform = async () => {
     try {
       const userPlatform = (await AsyncStorage.getItem(STORAGE_KEY)) as string;
-      const json = await JSON.parse(userPlatform);
-      userPlatform && setMyPlatforms(json);
-      return json ?? null;
+      if (userPlatform) {
+        const json = JSON.parse(userPlatform);
+        setMyPlatforms(json);
+        return json;
+      }
+      return null;
     } catch (error) {
       console.log('Failed to load platforms: ', error);
       Alert.alert(
@@ -26,12 +38,6 @@ export default function useUserPlatform() {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const sortingSelectedList = (array: platformType[]) => {
-    return [...array].sort(
-      (a, b) => INITIAL_PLATFORM.indexOf(a) - INITIAL_PLATFORM.indexOf(b),
-    );
   };
 
   // 사용자가 플랫폼을 선택하거나 선택 해제할 때 호출
@@ -61,6 +67,7 @@ export default function useUserPlatform() {
         ...platform,
         isActive: myPlatforms.includes(platform),
       }));
+      setUserPlatforms(newPlatforms);
       await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(newPlatforms));
       router();
     } catch (error) {

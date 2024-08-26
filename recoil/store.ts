@@ -26,3 +26,20 @@ export const recoilDateString = selector({
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()];
   },
 });
+
+export const recoilActivePlatforms = selector({
+  key: 'activePlatformName',
+  get: ({ get }) => {
+    const userPlatforms = get(recoilPlatformList);
+    const filetedActivePlatform = [...userPlatforms].reduce<string[]>(
+      (acc, platform) => {
+        if (platform.isActive) {
+          acc.push(platform.platformName);
+        }
+        return acc;
+      },
+      [],
+    );
+    return filetedActivePlatform;
+  },
+});
