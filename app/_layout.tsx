@@ -36,6 +36,5 @@ export default function RootLayout() {
         </Stack>
       </RecoilRoot>
     </ThemeProvider>
-
   );
 }

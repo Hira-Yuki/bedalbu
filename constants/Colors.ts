@@ -16,6 +16,8 @@ export const Colors = {
     tabIconSelected: tintColorLight,
     calendar: '#111314',
     calendarBackgroundColor: '#ECEDEE',
+    buttonBackgroundColor: '#11181C',
+    buttonTextColor: '#ECEDEE',
   },
   dark: {
     text: '#ECEDEE',
@@ -26,5 +28,7 @@ export const Colors = {
     tabIconSelected: tintColorDark,
     calendar: '#ECEDEE',
     calendarBackgroundColor: '#111314',
+    buttonBackgroundColor: '#ECEDEE',
+    buttonTextColor: '#11181C',
   },
 };

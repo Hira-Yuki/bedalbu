@@ -24,11 +24,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="config"
+        name="recode"
         options={{
-          title: 'Config',
+          title: '기록',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'ellipsis-horizontal' : 'ellipsis-horizontal-outline'} color={color} />
+            <TabBarIcon name={focused ? 'create' : 'create-outline'} color={color} />
           ),
         }}
       />
