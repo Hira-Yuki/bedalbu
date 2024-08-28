@@ -44,6 +44,9 @@ export default function MonthlyCalendar({ lightColor,
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor')
   const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
 
+  const today = new Date();
+  const todayDateString = today.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식의 문자열
+
   return (
     <ThemedView style={styles.calendarContainer}>
       <Calendar
@@ -62,6 +65,7 @@ export default function MonthlyCalendar({ lightColor,
         disableMonthChange
         hideExtraDays
         hideArrows
+        maxDate={todayDateString}
         renderHeader={() => {
           /** 
            * @TODO 별도의 데이터 처리하여 보여줄 것

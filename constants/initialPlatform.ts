@@ -27,7 +27,7 @@ export const INITIAL_PLATFORM: platformType[] = [
     platformName: '일반 대행',
     isActive: false,
   },
-];
+] as const;
 /**
  * 플랫폼 로고 매핑
  * 플랫폼 ID를 키로 사용하여 로고를 가져옴
@@ -37,4 +37,4 @@ export const PLATFORM_LOGOS: { [key: string]: ImageSourcePropType } = {
   '2': require('@/assets/icons/coupang_eat-icon.webp'), // 쿠팡 이츠
   '3': require('@/assets/icons/yogiyo-icon.webp'), // 요기요
   '4': require('@/assets/icons/scooter.webp'), // 일반 대행
-};
+} as const;
