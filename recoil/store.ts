@@ -19,10 +19,15 @@ export const recoilPlatformList = atom<platformType[]>({
   default: [],
 });
 
+export const recoilDateState = atom({
+  key: 'dateState',
+  default: new Date(), // 초기값을 현재 날짜로 설정
+});
+
 export const recoilDateString = selector({
   key: 'dateString',
-  get: () => {
-    const date = new Date();
+  get: ({ get }) => {
+    const date = get(recoilDateState);
     return [date.getFullYear(), date.getMonth() + 1, date.getDate()];
   },
 });
