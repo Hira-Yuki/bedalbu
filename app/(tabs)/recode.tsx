@@ -1,9 +1,12 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
+import useModalOpen from "@/hooks/useModalOpen";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useState } from "react";
 import { StyleSheet, TouchableOpacity } from "react-native";
+import DatePicker from "react-native-date-picker";
 
 const recordSectionTitle = ['날짜', '거리', '시간', '날씨', '메모'];
 
@@ -12,12 +15,35 @@ export default function Recode({ lightColor,
     lightColor?: string;
     darkColor?: string;
   }) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-  const buttonBackgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'buttonBackgroundColor');
-  const buttonTextColor = useThemeColor({ light: lightColor, dark: darkColor }, 'buttonTextColor');
+  const themeColors = { light: lightColor, dark: darkColor };
+
+  const color = useThemeColor(themeColors, 'text');
+  const buttonBackgroundColor = useThemeColor(themeColors, 'buttonBackgroundColor');
+  const buttonTextColor = useThemeColor(themeColors, 'buttonTextColor');
+
+  const [isOpen, toggle] = useModalOpen(false)
+  const [date, setDate] = useState(new Date())
+  const todayDateString = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식의 문자열
 
   return (
     <ThemedView style={styles.container}>
+      <DatePicker
+        modal
+        open={isOpen}
+        date={date}
+        locale={'ko'}
+        mode={"date"}
+        maximumDate={new Date(todayDateString)}
+        confirmText={"추가하기"}
+        cancelText={"취소하기"}
+        onConfirm={(date) => {
+          toggle()
+          setDate(date)
+        }}
+        onCancel={() => {
+          toggle()
+        }}
+      />
       <ThemedView style={styles.header}>
         {/* 제목 */}
         <ThemedView style={styles.headerTitle}>
@@ -27,7 +53,9 @@ export default function Recode({ lightColor,
           </ThemedText>
         </ThemedView>
         {/* 날짜 추가 버튼 */}
-        <TouchableOpacity style={{ ...styles.button, backgroundColor: buttonBackgroundColor }}>
+        <TouchableOpacity style={{ ...styles.button, backgroundColor: buttonBackgroundColor }}
+          onPress={() => toggle()}
+        >
           <ThemedText style={{ ...styles.buttonText, color: buttonTextColor }}>
             + 날짜 추가
           </ThemedText>
