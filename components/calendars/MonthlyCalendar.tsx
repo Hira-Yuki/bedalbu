@@ -1,6 +1,7 @@
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import useSelectableDate from "@/hooks/useSelectableDate";
+import getCustomThemeColor, { themeOptions } from "@/utils/getCustomThemeColor";
 import { StyleSheet } from "react-native";
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import CalendarHeader from "./CalendarHeader";
@@ -36,23 +37,17 @@ interface CalendarObjectType {
 }
 
 export default function MonthlyCalendar({ lightColor,
-  darkColor }: {
-    lightColor?: string;
-    darkColor?: string;
-  }) {
+  darkColor }: themeOptions) {
 
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor')
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-
-  const today = new Date();
-  const todayDateString = today.toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식의 문자열
+  const { color, calendarBackgroundColor } = getCustomThemeColor({ light: lightColor, dark: darkColor });
+  const maxSelectableDate = useSelectableDate();
 
   return (
     <ThemedView style={styles.calendarContainer}>
       <Calendar
-        key={`${backgroundColor}-${color}`} // 테마 변경시 강제 랜더링을 위한 key
+        key={`${calendarBackgroundColor}-${color}`} // 테마 변경시 강제 랜더링을 위한 key
         theme={{
-          calendarBackground: backgroundColor,
+          calendarBackground: calendarBackgroundColor,
           textSectionTitleColor: color,
           dayTextColor: color,
           todayTextColor: '#00adf5',
@@ -65,7 +60,7 @@ export default function MonthlyCalendar({ lightColor,
         disableMonthChange
         hideExtraDays
         hideArrows
-        maxDate={todayDateString}
+        maxDate={maxSelectableDate}
         renderHeader={() => {
           /** 
            * @TODO 별도의 데이터 처리하여 보여줄 것

@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import getCustomThemeColor, { themeOptions } from "@/utils/getCustomThemeColor";
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import { StyleSheet, TouchableOpacity } from "react-native";
 
@@ -12,19 +12,20 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 // ]
 
 export default function CalendarHeader({ lightColor,
-  darkColor }: {
-    lightColor?: string;
-    darkColor?: string;
-  }) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'calendarBackgroundColor');
-  const buttonBackgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
+  darkColor }: themeOptions) {
+
+  const {
+    color,
+    calendarBackgroundColor,
+    calendarButtonBackgroundColor
+  } = getCustomThemeColor({ light: lightColor, dark: darkColor })
+
   const PressOffDay = () => {
     console.log('PressOffDay')
   }
 
   return (
-    <ThemedView style={{ ...styles.headerContainer, backgroundColor: backgroundColor }}>
+    <ThemedView style={{ ...styles.headerContainer, backgroundColor: calendarBackgroundColor }}>
       <ThemedView style={styles.headerItem}>
         <ThemedText style={styles.contentsTitle}>
           일 평균
@@ -81,7 +82,7 @@ export default function CalendarHeader({ lightColor,
           ...styles.offDayContainer,
           borderColor: color,
           shadowColor: color,
-          backgroundColor: buttonBackgroundColor,
+          backgroundColor: calendarButtonBackgroundColor,
         }}>
           <FontAwesome5 name="calendar-check" size={15} color={color} />
           <ThemedText style={styles.offDayText}>휴무일</ThemedText>

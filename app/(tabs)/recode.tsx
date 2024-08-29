@@ -2,71 +2,40 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import useModalOpen from "@/hooks/useModalOpen";
-import { useThemeColor } from "@/hooks/useThemeColor";
+import useSelectableDate from "@/hooks/useSelectableDate";
+import getCustomThemeColor, { themeOptions } from "@/utils/getCustomThemeColor";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useEffect, useState } from "react";
-import { AppState, StyleSheet, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-date-picker";
 
 const recordSectionTitle = ['날짜', '거리', '시간', '날씨', '메모'];
 
-export default function Recode({ lightColor,
-  darkColor }: {
-    lightColor?: string;
-    darkColor?: string;
-  }) {
-  const themeColors = { light: lightColor, dark: darkColor };
+export default function Recode({ lightColor, darkColor }: themeOptions) {
+  const {
+    color,
+    buttonBackgroundColor,
+    buttonTextColor
+  } = getCustomThemeColor({ light: lightColor, dark: darkColor });
 
-  const color = useThemeColor(themeColors, 'text');
-  const buttonBackgroundColor = useThemeColor(themeColors, 'buttonBackgroundColor');
-  const buttonTextColor = useThemeColor(themeColors, 'buttonTextColor');
-
-  const [isOpen, toggle] = useModalOpen(false)
-  const [date, setDate] = useState(new Date())
-
-  const [todayDateString, setTodayDateString] = useState(new Date().toISOString().split('T')[0]);
-
-  useEffect(() => {
-    const checkAndUpdateDate = () => {
-      const newDate = new Date();
-      const newDateString = newDate.toISOString().split('T')[0];
-
-      if (newDateString !== todayDateString) {
-        // '오늘'이 변경된 경우에만 업데이트
-        setTodayDateString(newDateString);
-      }
-    };
-
-    const handleAppStateChange = (nextAppState: string) => {
-      if (nextAppState === 'active') {
-        // 앱이 활성화될 때 날짜를 확인
-        checkAndUpdateDate();
-      }
-    };
-
-    // AppState 이벤트 리스너 추가
-    const subscription = AppState.addEventListener('change', handleAppStateChange);
-
-    // 컴포넌트 언마운트 시 리스너 제거
-    return () => {
-      subscription.remove();
-    };
-  }, [todayDateString]);
+  const [isOpen, toggle] = useModalOpen(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const maxSelectableDate = new Date(useSelectableDate());
 
   return (
     <ThemedView style={styles.container}>
       <DatePicker
         modal
         open={isOpen}
-        date={date}
+        date={selectedDate}
         locale={'ko'}
         mode={"date"}
-        maximumDate={new Date()}
+        maximumDate={maxSelectableDate}
         confirmText={"추가하기"}
         cancelText={"취소하기"}
         onConfirm={(date) => {
           toggle()
-          setDate(date)
+          setSelectedDate(date)
         }}
         onCancel={() => {
           toggle()
