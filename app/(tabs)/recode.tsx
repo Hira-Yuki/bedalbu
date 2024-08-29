@@ -4,8 +4,8 @@ import { SCREEN_WIDTH } from "@/constants/Dimensions";
 import useModalOpen from "@/hooks/useModalOpen";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import { useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { AppState, StyleSheet, TouchableOpacity } from "react-native";
 import DatePicker from "react-native-date-picker";
 
 const recordSectionTitle = ['날짜', '거리', '시간', '날씨', '메모'];
@@ -23,7 +23,35 @@ export default function Recode({ lightColor,
 
   const [isOpen, toggle] = useModalOpen(false)
   const [date, setDate] = useState(new Date())
-  const todayDateString = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD' 형식의 문자열
+
+  const [todayDateString, setTodayDateString] = useState(new Date().toISOString().split('T')[0]);
+
+  useEffect(() => {
+    const checkAndUpdateDate = () => {
+      const newDate = new Date();
+      const newDateString = newDate.toISOString().split('T')[0];
+
+      if (newDateString !== todayDateString) {
+        // '오늘'이 변경된 경우에만 업데이트
+        setTodayDateString(newDateString);
+      }
+    };
+
+    const handleAppStateChange = (nextAppState: string) => {
+      if (nextAppState === 'active') {
+        // 앱이 활성화될 때 날짜를 확인
+        checkAndUpdateDate();
+      }
+    };
+
+    // AppState 이벤트 리스너 추가
+    const subscription = AppState.addEventListener('change', handleAppStateChange);
+
+    // 컴포넌트 언마운트 시 리스너 제거
+    return () => {
+      subscription.remove();
+    };
+  }, [todayDateString]);
 
   return (
     <ThemedView style={styles.container}>
@@ -33,7 +61,7 @@ export default function Recode({ lightColor,
         date={date}
         locale={'ko'}
         mode={"date"}
-        maximumDate={new Date(todayDateString)}
+        maximumDate={new Date()}
         confirmText={"추가하기"}
         cancelText={"취소하기"}
         onConfirm={(date) => {
