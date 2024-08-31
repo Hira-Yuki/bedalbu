@@ -42,6 +42,7 @@ export default function DateUpdater() {
         setMidnightUpdate(); // 자정마다 반복 설정
       }, timeUntilMidnight);
     };
+
     setMidnightUpdate(); // 자정 업데이트 설정 초기화
 
     const handleAppStateChange = (nextAppState: string) => {

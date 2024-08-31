@@ -61,9 +61,11 @@ export default function Recode({ lightColor, darkColor }: themeOptions) {
       {/* 기록 섹션 */}
       <ThemedView style={styles.recordSection}>
         {recordSectionTitle.map((title) => (
-          <ThemedText key={title}>
-            {title}
-          </ThemedText>
+          <ThemedView key={title}>
+            <ThemedText>
+              {title}
+            </ThemedText>
+          </ThemedView>
         ))}
       </ThemedView>
       {/* 기록 섹션 내용 */}
